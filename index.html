@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DivApoio — apoio para pagar dívidas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap">
+  <a class="logo" href="#topo">DivApoio</a>
+  <nav>
+    <a href="#como">Como funciona</a><a href="#comunidade">Comunidade</a><a href="#planos">Planos</a><a href="#suporte">Suporte</a><a href="#contato">Contato</a>
+    <button class="btn ghost" id="navAuth">Entrar</button>
+  </nav>
+</div></header>
+
+<main id="topo">
+<section class="hero"><div class="wrap">
+  <div class="pot"><span style="font-size:1.8rem">🍯</span><span>Pote de mel atual <b id="potVal">R$ 0,00</b></span></div>
+  <h1>Assista, avance na fila e liberte-se de dívidas.</h1>
+  <p>No DivApoio, a receita dos anúncios que a comunidade assiste enche o pote de mel. Quando chega a sua vez, o valor liberado vai direto para os seus credores.</p>
+  <div class="row"><button class="btn" id="heroCta">Criar minha conta</button><a class="btn ghost" href="#como">Entender a fila</a></div>
+</div></section>
+
+<section id="como"><div class="wrap">
+  <h2>Como funciona o pote</h2>
+  <div class="grid steps">
+    <div class="card"><h3>1. Assista</h3><p>Cada anúncio assistido até o fim conta uma visualização no seu perfil. A meta é 1.000 visualizações.</p></div>
+    <div class="card"><h3>2. Entre na fila</h3><p>Ao completar 1.000, você entra na fila de espera por ordem de chegada: quem chega primeiro, recebe primeiro.</p></div>
+    <div class="card"><h3>3. O pote enche</h3><p>Quanto mais pessoas assistem, mais o pote cresce. O valor liberado depende do desempenho dos anúncios: pode ser R$ 1.000, R$ 10 mil, R$ 24 mil ou outro.</p></div>
+    <div class="card"><h3>4. Análise das dívidas</h3><p>Quem for contemplado terá contas e boletos analisados no SPC e no Serasa. Depois, entraremos em contato para combinar o pagamento.</p></div>
+    <div class="card"><h3>5. Pagamento</h3><p>Você nos envia o QR Code do boleto e as contas a pagar. Quitamos as dívidas diretamente com o credor.</p></div>
+    <div class="card"><h3>6. Recompensa e saque</h3><p>O que sobrar do pote que você recebeu vira recompensa por ter pago suas dívidas. O valor fica no seu saldo no DivApoio e você saca por Pix.</p></div>
+  </div>
+  <p class="notice"><b>Transparência:</b> o valor do pote não é fixo nem garantido. Ele varia com a receita real dos anúncios e com o número de usuários ativos. Nunca informe senhas pelo chat.</p>
+</div></section>
+
+<section id="painel" class="hide" style="background:var(--bg2)"><div class="wrap">
+  <h2>Olá, <span id="uName"></span></h2>
+  <div class="stats">
+    <div class="stat"><b id="sViews">0</b><span>suas visualizações (meta: 1.000)</span></div>
+    <div class="stat"><b id="sQueue">—</b><span>posição na fila</span></div>
+    <div class="stat"><b id="sPlan">Grátis</b><span>seu plano</span></div>
+    <div class="stat"><b id="sSaldo">R$ 0,00</b><span>saldo para saque</span></div>
+  </div>
+  <div class="bar" aria-label="Progresso"><i id="bar"></i></div>
+
+  <h3 style="margin-top:36px">Assistir anúncio</h3>
+  <p style="color:var(--mut)">Clique em assistir e mantenha esta página aberta por 15 segundos. A visualização só conta quando o tempo termina.</p>
+  <div class="ads">
+    <div><div class="adlabel">Anúncio 1</div><div class="adbox" style="width:320px"><iframe id="ad1" width="320" height="50" title="Anúncio 1"></iframe></div></div>
+    <div><div class="adlabel">Anúncio 2</div><div class="adbox" style="width:300px"><iframe id="ad2" width="300" height="250" title="Anúncio 2"></iframe></div></div>
+  </div>
+  <button class="btn" id="watch">Assistir anúncio</button>
+  <div class="msg" id="watchMsg" role="status"></div>
+
+  <div class="wallet">
+    <h3>Saque por Pix</h3>
+    <p style="color:var(--mut)">O saldo é a recompensa que sobra depois do pagamento das suas dívidas. Pagamento via Asaas (em integração): o pedido fica pendente até a confirmação.</p>
+    <form id="fSaque" class="row2" style="margin-top:14px">
+      <input id="qVal" inputmode="decimal" placeholder="Valor (R$)" aria-label="Valor do saque" required>
+      <input id="qPix" placeholder="Sua chave Pix" aria-label="Chave Pix" required>
+      <button class="btn">Solicitar saque</button>
+    </form>
+    <div class="msg" id="saqueMsg" role="status"></div>
+    <div id="saqueList" style="color:var(--mut);font-size:.9rem"></div>
+  </div>
+</div></section>
+
+<section id="comunidade"><div class="wrap">
+  <h2>Comunidade DivApoio</h2>
+  <div class="stats">
+    <div class="stat"><b id="cPessoas">0</b><span>pessoas que já assistiram</span></div>
+    <div class="stat"><b id="cViews">0</b><span>visualizações no total</span></div>
+    <div class="stat"><b id="cCad">0</b><span>pessoas cadastradas</span></div>
+  </div>
+  <div class="tscroll"><table class="tbl"><thead><tr><th>Pessoa</th><th>Visualizações</th></tr></thead><tbody id="cTab"><tr><td colspan="2">Carregando…</td></tr></tbody></table></div>
+  <p style="color:var(--mut);font-size:.85rem;margin-top:8px">Mostramos só o primeiro nome e a inicial do sobrenome. Lista com até 50 pessoas.</p>
+
+  <div class="card" style="margin-top:40px;max-width:560px">
+    <h3>Receba novidades</h3>
+    <p>Deixe seu e-mail e avisamos quando abrirmos novas etapas.</p>
+    <form id="fLead">
+      <label for="ldE">E-mail</label><input id="ldE" type="email" required autocomplete="email">
+      <label class="chk"><input id="ldC" type="checkbox" required> Concordo em receber e-mails do DivApoio e posso cancelar quando quiser.</label>
+      <button class="btn">Cadastrar</button>
+    </form>
+    <div class="msg" id="ldMsg" role="status"></div>
+  </div>
+</div></section>
+
+<section id="planos" style="background:var(--bg2)"><div class="wrap">
+  <h2>Planos mensais</h2>
+  <p style="color:var(--mut);margin-bottom:24px">A cobrança dos planos será feita pelo gateway Stripe, que está em desenvolvimento.</p>
+  <div class="grid plans">
+    <div class="card"><h3>Grátis</h3><div class="price">R$ 0</div>
+      <ul class="ck"><li>Assistir anúncios e acumular visualizações</li><li>Entrar na fila do pote de mel</li></ul></div>
+    <div class="card feat"><h3>Plus</h3><div class="price">R$ 350 <small>/mês</small></div>
+      <ul class="ck"><li>Tudo do plano grátis</li><li>Participa da seleção mensal de 3.000 pessoas com valor em dinheiro para pagar dívidas</li></ul>
+      <button class="btn" disabled>Em breve (Stripe)</button></div>
+    <div class="card"><h3>Pro — empresários</h3><div class="price">R$ 700 <small>/mês</small></div>
+      <ul class="ck"><li>Tudo do plano Plus</li><li>Participa da seleção de 8 empresários para pagar dívidas da empresa</li></ul>
+      <button class="btn ghost" disabled>Em breve (Stripe)</button></div>
+  </div>
+</div></section>
+
+<section id="suporte"><div class="wrap" style="max-width:640px">
+  <h2>Chat de suporte</h2>
+  <div class="soon"><b>Em desenvolvimento</b>Em breve você poderá falar com o suporte por aqui.</div>
+</div></section>
+
+<section id="contato" style="background:var(--bg2)"><div class="wrap" style="max-width:640px">
+  <h2>Contato</h2>
+  <div class="soon"><b>Em desenvolvimento</b>Em breve teremos canais de contato por aqui.</div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  DivApoio © <span id="yr"></span>. Os valores do pote dependem do desempenho dos anúncios e não são garantidos. O DivApoio paga credores diretamente e nunca solicita senhas, tokens ou códigos de banco.
+</div></footer>
+
+<dialog id="dlg">
+  <div class="tabs" id="tabs"><button class="on" data-t="login">Entrar</button><button data-t="signup">Cadastrar</button></div>
+  <form id="fLogin">
+    <label for="lE">E-mail</label><input id="lE" type="email" required autocomplete="email">
+    <label for="lP">Senha</label><input id="lP" type="password" required autocomplete="current-password">
+    <button class="btn" style="width:100%;margin-top:18px">Entrar</button>
+    <button type="button" class="link" id="toReset">Esqueci minha senha</button>
+  </form>
+  <form id="fSignup" class="hide">
+    <label for="sN">Nome completo</label><input id="sN" required autocomplete="name">
+    <label for="sE">E-mail</label><input id="sE" type="email" required autocomplete="email">
+    <label for="sT">Telefone (WhatsApp)</label><input id="sT" type="tel" required autocomplete="tel">
+    <label for="sP">Senha (mínimo 8 caracteres)</label><input id="sP" type="password" minlength="8" required autocomplete="new-password">
+    <button class="btn" style="width:100%;margin-top:18px">Criar conta</button>
+  </form>
+  <form id="fReset" class="hide">
+    <label for="rE">E-mail da conta</label><input id="rE" type="email" required autocomplete="email">
+    <button class="btn" style="width:100%;margin-top:18px">Enviar link de redefinição</button>
+    <button type="button" class="link" id="toLogin">Voltar ao login</button>
+  </form>
+  <form id="fNewPass" class="hide">
+    <label for="nP">Nova senha (mínimo 8 caracteres)</label><input id="nP" type="password" minlength="8" required autocomplete="new-password">
+    <button class="btn" style="width:100%;margin-top:18px">Salvar nova senha</button>
+  </form>
+  <div class="msg" id="aMsg" role="status"></div>
+  <button type="button" class="link" id="closeDlg">Fechar</button>
+</dialog>
+<script type="module" src="app.js"></script>
+</body>
+</html>

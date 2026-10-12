@@ -1,0 +1,8 @@
+DivApoio v2 (Supabase + Vercel)
+
+1) Supabase > SQL Editor: rode supabase/schema.sql (se ainda não rodou) e depois supabase/atualizacao.sql
+2) app.js: confira SUPABASE_URL e SUPABASE_ANON_KEY (chave pública anon)
+3) Vercel > Environment Variables: SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY (secreta, só lá)
+4) Envie tudo ao GitHub (index.html, style.css, app.js, package.json, api/, supabase/) e faça o deploy
+5) Erro "email rate limit exceeded": Supabase > Authentication > Emails > SMTP Settings (use um SMTP próprio:
+   Resend, Brevo, etc.) ou, para testes, Authentication > Providers > Email > desligue "Confirm email".
